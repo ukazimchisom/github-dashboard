@@ -8,10 +8,11 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./tests/setup.ts"],
-
-    // Only look for tests in these specific folders for now
-    // We'll expand this when we write component and E2E tests
-    include: ["tests/unit/**/*.test.ts", "tests/unit/**/*.test.tsx"],
+    include: [
+      "tests/unit/**/*.test.ts",
+      "tests/unit/**/*.test.tsx",
+      "tests/components/metrics-cards.test.tsx",
+    ],
   },
   resolve: {
     alias: {
