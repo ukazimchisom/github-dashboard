@@ -61,4 +61,5 @@ export const TABLES = {
   TEAM_MEMBERS: "team_members",
   REPOSITORIES: "repositories",
   PULL_REQUESTS: "pull_requests",
+  PROFILES: "profiles",
 } as const;

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/sidebar";
 import { ToastProvider } from "@/components/ui/toast";
+import SyncButton from "@/components/shared/sync-button";
 
 export default async function DashboardLayout({
   children,
@@ -41,6 +42,9 @@ export default async function DashboardLayout({
                 Monitor your team&apos;s pull request activity
               </p>
             </div>
+
+            {/* Sync button in the top-right of the header */}
+            <SyncButton />
           </header>
 
           {/* Page content */}
