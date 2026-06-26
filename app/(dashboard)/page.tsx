@@ -1,4 +1,5 @@
 import MetricsCards from "@/components/dashboard/metrics-cards";
+import PRChart from "@/components/dashboard/pr-chart";
 
 export default function DashboardPage() {
   return (
@@ -11,19 +12,15 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Metric cards row */}
+      {/* Four metric cards */}
       <MetricsCards />
 
-      {/* Placeholder for chart — next step */}
-      <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-        <p className="text-gray-400 text-sm">
-          PR chart coming in the next step
-        </p>
-      </div>
+      {/* PR activity chart */}
+      <PRChart />
 
-      {/* Placeholder for PR list — coming soon */}
+      {/* Placeholder for PR list — next step */}
       <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-        <p className="text-gray-400 text-sm">PR list coming soon</p>
+        <p className="text-gray-400 text-sm">PR list coming in the next step</p>
       </div>
     </div>
   );
