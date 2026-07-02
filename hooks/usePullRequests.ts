@@ -3,14 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { TABLES, QUERY_STALE_TIME, PR_PAGE_SIZE } from "@/config/constants";
+import { useTeamStore } from "@/store/teamStore";
 import type { PullRequest } from "@/types/database";
 import type { PR_STATUS_TYPE } from "@/config/constants";
-
-// ============================================
-// fetchPullRequestsWithFilter
-// ============================================
-// Fetches PRs from Supabase with optional status filter.
-// Includes repository name for display in the table.
 
 async function fetchPullRequestsWithFilter(
   teamId: string,
@@ -32,9 +27,8 @@ async function fetchPullRequestsWithFilter(
     )
     .eq("team_id", teamId)
     .order("github_created_at", { ascending: false })
-    .limit(200); // Cap at 200 for MVP performance
+    .limit(200);
 
-  // Apply status filter if not 'all'
   if (statusFilter !== "all") {
     query = query.eq("status", statusFilter);
   }
@@ -48,29 +42,24 @@ async function fetchPullRequestsWithFilter(
   return (data ?? []) as PullRequest[];
 }
 
-// ============================================
-// usePullRequestList
-// ============================================
-// Hook for the PR list table.
-// Accepts a status filter and page number.
-
 export function usePullRequestList(
-  teamId: string | null | undefined,
   statusFilter: PR_STATUS_TYPE | "all" = "all",
   page: number = 1,
 ) {
+  // Read directly from Zustand store
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+
   const {
     data: allPRs = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["pull-requests-list", teamId, statusFilter],
-    queryFn: () => fetchPullRequestsWithFilter(teamId!, statusFilter),
-    enabled: !!teamId,
+    queryKey: ["pull-requests-list", selectedTeamId, statusFilter],
+    queryFn: () => fetchPullRequestsWithFilter(selectedTeamId!, statusFilter),
+    enabled: !!selectedTeamId,
     staleTime: QUERY_STALE_TIME,
   });
 
-  // Client-side pagination
   const totalCount = allPRs.length;
   const totalPages = Math.ceil(totalCount / PR_PAGE_SIZE);
   const startIndex = (page - 1) * PR_PAGE_SIZE;

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
+import { useTeamStore } from "@/store/teamStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 type SyncResult = {
   success: boolean;
@@ -15,6 +17,8 @@ type SyncResult = {
 export default function SyncButton() {
   const [isSyncing, setIsSyncing] = useState(false);
   const { showToast } = useToast();
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+  const queryClient = useQueryClient();
 
   async function handleSync() {
     try {
@@ -23,6 +27,9 @@ export default function SyncButton() {
 
       const response = await fetch("/api/github/sync", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Pass selected team ID so sync targets the right team
+        body: JSON.stringify({ teamId: selectedTeamId }),
       });
 
       const result: SyncResult = await response.json();
@@ -36,9 +43,9 @@ export default function SyncButton() {
           `Sync complete! ${result.repositoriesSynced} repos, ${result.pullRequestsSynced} PRs synced.`,
           "success",
         );
-
-        // Refresh the page to show new data
-        window.location.reload();
+        // Invalidate queries so dashboard refreshes with new data
+        queryClient.invalidateQueries({ queryKey: ["pull-requests"] });
+        queryClient.invalidateQueries({ queryKey: ["pull-requests-list"] });
       } else {
         throw new Error(result.errors?.[0] ?? "Sync failed");
       }

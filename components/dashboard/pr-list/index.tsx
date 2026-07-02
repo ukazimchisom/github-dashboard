@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { usePullRequestList } from "@/hooks/usePullRequests";
-import { useTeamId } from "@/hooks/useMetrics";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -11,6 +10,7 @@ import { formatRelativeTime, formatDate } from "@/lib/utils/date-helpers";
 import { PR_STATUS, type PR_STATUS_TYPE } from "@/config/constants";
 import type { PullRequest } from "@/types/database";
 import { cn } from "@/lib/utils/cn";
+import Image from "next/image";
 
 // ============================================
 // STATUS FILTER OPTIONS
@@ -78,7 +78,7 @@ function PRRow({ pr }: { pr: PRWithRepo }) {
       {/* Author avatar */}
       <div className="flex-shrink-0">
         {pr.author_avatar_url ? (
-          <img
+          <Image
             src={pr.author_avatar_url}
             alt={pr.author_username}
             className="w-8 h-8 rounded-full"
@@ -179,11 +179,8 @@ export default function PRList() {
   );
   const [page, setPage] = useState(1);
 
-  // Get the team ID first
-  const { data: teamId } = useTeamId();
-
+  // NEW — no teamId parameter needed
   const { prs, totalCount, totalPages, isLoading, error } = usePullRequestList(
-    teamId,
     statusFilter,
     page,
   );

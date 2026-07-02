@@ -2,11 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 import { syncGitHubData } from "@/lib/github/sync";
 import { TABLES } from "@/config/constants";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
     const supabase = await createClient();
-
-    // Verify the user is logged in
     const {
       data: { user },
       error: authError,
@@ -16,7 +14,15 @@ export async function POST() {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Get the GitHub access token from our profiles table
+    // Read teamId from request body if provided
+    let requestedTeamId: string | null = null;
+    try {
+      const body = await request.json();
+      requestedTeamId = body?.teamId ?? null;
+    } catch {
+      // Body may be empty — that's fine
+    }
+
     const { data: profile, error: profileError } = await supabase
       .from(TABLES.PROFILES)
       .select("github_access_token")
@@ -35,40 +41,51 @@ export async function POST() {
 
     const accessToken = profile.github_access_token;
 
-    // Get or create the user's default team
+    // Use requested team or fall back to first team
     let teamId: string;
 
-    const { data: existingTeam } = await supabase
-      .from(TABLES.TEAMS)
-      .select("id")
-      .eq("manager_id", user.id)
-      .single();
-
-    if (existingTeam) {
-      teamId = existingTeam.id;
-    } else {
-      const { data: newTeam, error: teamError } = await supabase
+    if (requestedTeamId) {
+      // Verify the team belongs to this user
+      const { data: team } = await supabase
         .from(TABLES.TEAMS)
-        .insert({
-          name: "My Team",
-          manager_id: user.id,
-        })
         .select("id")
+        .eq("id", requestedTeamId)
+        .eq("manager_id", user.id)
         .single();
 
-      if (teamError || !newTeam) {
-        return Response.json(
-          { error: "Failed to create team" },
-          { status: 500 },
-        );
+      if (team) {
+        teamId = team.id;
+      } else {
+        return Response.json({ error: "Team not found" }, { status: 404 });
       }
+    } else {
+      // Fall back to first existing team or create one
+      const { data: existingTeam } = await supabase
+        .from(TABLES.TEAMS)
+        .select("id")
+        .eq("manager_id", user.id)
+        .single();
 
-      teamId = newTeam.id;
+      if (existingTeam) {
+        teamId = existingTeam.id;
+      } else {
+        const { data: newTeam, error: teamError } = await supabase
+          .from(TABLES.TEAMS)
+          .insert({ name: "My Team", manager_id: user.id })
+          .select("id")
+          .single();
+
+        if (teamError || !newTeam) {
+          return Response.json(
+            { error: "Failed to create team" },
+            { status: 500 },
+          );
+        }
+        teamId = newTeam.id;
+      }
     }
 
-    // Run the sync
     const progressMessages: string[] = [];
-
     const result = await syncGitHubData(
       supabase,
       accessToken,
@@ -76,10 +93,7 @@ export async function POST() {
       (message) => progressMessages.push(message),
     );
 
-    return Response.json({
-      ...result,
-      progress: progressMessages,
-    });
+    return Response.json({ ...result, progress: progressMessages });
   } catch (error) {
     console.error("Sync route error:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
