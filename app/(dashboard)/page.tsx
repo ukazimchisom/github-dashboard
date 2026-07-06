@@ -1,8 +1,15 @@
+"use client";
+
 import MetricsCards from "@/components/dashboard/metrics-cards";
 import PRChart from "@/components/dashboard/pr-chart";
 import PRList from "@/components/dashboard/pr-list";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 export default function DashboardPage() {
+  // Subscribe to real-time database changes
+  // Dashboard auto-refreshes when webhooks update PRs
+  useRealtimeSync();
+
   return (
     <div className="space-y-6">
       <div>
@@ -12,13 +19,8 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Four metric cards */}
       <MetricsCards />
-
-      {/* PR activity chart */}
       <PRChart />
-
-      {/* PR list table */}
       <PRList />
     </div>
   );

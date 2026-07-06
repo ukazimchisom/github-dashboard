@@ -58,6 +58,8 @@ export function usePullRequestList(
     queryFn: () => fetchPullRequestsWithFilter(selectedTeamId!, statusFilter),
     enabled: !!selectedTeamId,
     staleTime: QUERY_STALE_TIME,
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
   });
 
   const totalCount = allPRs.length;

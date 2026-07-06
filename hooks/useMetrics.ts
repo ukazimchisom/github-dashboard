@@ -54,6 +54,12 @@ export function usePullRequests() {
     queryFn: () => fetchPullRequests(selectedTeamId!),
     enabled: !!selectedTeamId,
     staleTime: QUERY_STALE_TIME,
+
+    // Poll every 30 seconds to pick up webhook-triggered updates
+    // This is lightweight — TanStack Query only refetches if the
+    // window is focused and the data is stale
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
   });
 }
 

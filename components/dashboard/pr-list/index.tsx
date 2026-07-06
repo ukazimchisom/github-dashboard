@@ -81,6 +81,8 @@ function PRRow({ pr }: { pr: PRWithRepo }) {
           <Image
             src={pr.author_avatar_url}
             alt={pr.author_username}
+            width={32}
+            height={32}
             className="w-8 h-8 rounded-full"
           />
         ) : (
