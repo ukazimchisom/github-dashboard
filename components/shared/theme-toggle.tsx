@@ -1,15 +1,16 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils/cn";
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
+  const mounted = useMounted();
 
-  // resolvedTheme is undefined on the server and during hydration
-  // Rendering null avoids the hydration mismatch without needing
-  // useState + useEffect at all
-  if (!resolvedTheme) {
+  // Render a same-sized placeholder on the server and during hydration
+  // so the HTML structure matches between server and client
+  if (!mounted) {
     return <div className="w-8 h-8 rounded-lg" />;
   }
 
