@@ -4,6 +4,7 @@ import { useMetrics } from "@/hooks/useMetrics";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatReviewTime } from "@/lib/utils/date-helpers";
+import { ArrowUpDown, Clock, TrendingUp } from "lucide-react";
 
 // ============================================
 // MetricCardSkeleton
@@ -126,22 +127,8 @@ export default function MetricsCards() {
       title: "Total PRs",
       value: metrics.totalPRs.toLocaleString(),
       description: "All pull requests synced",
-      valueColor: "text-gray-900",
-      icon: (
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
-          />
-        </svg>
-      ),
+      valueColor: "text-gray-900 dark:text-gray-100",
+      icon: <ArrowUpDown className="w-4 h-4 text-blue-600" />,
     },
     {
       title: "Open PRs",
@@ -151,21 +138,7 @@ export default function MetricsCards() {
         metrics.openPRs > 10
           ? "text-yellow-600 dark:text-yellow-400"
           : "text-gray-900 dark:text-gray-100",
-      icon: (
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
+      icon: <Clock className="w-4 h-4 text-red-600" strokeWidth={1.5} />,
     },
     {
       title: "Avg Review Time",
@@ -177,41 +150,15 @@ export default function MetricsCards() {
           : metrics.avgReviewTimeHours > 24
             ? "text-yellow-600 dark:text-yellow-400"
             : "text-green-600 dark:text-green-400",
-      icon: (
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
+      icon: <Clock className="w-4 h-4 text-red-600" strokeWidth={1.5} />,
     },
     {
       title: "Weekly Velocity",
       value: metrics.weeklyVelocity.toLocaleString(),
       description: "PRs merged in last 7 days",
-      valueColor: "text-gray-900",
+      valueColor: "text-gray-900 dark:text-gray-100",
       icon: (
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={1.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
-          />
-        </svg>
+        <TrendingUp className="w-4 h-4 text-purple-600" strokeWidth={1.5} />
       ),
     },
   ];
