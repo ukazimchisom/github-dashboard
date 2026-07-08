@@ -11,7 +11,7 @@ import {
   useAddTeamMember,
   useRemoveTeamMember,
 } from "@/hooks/useTeams";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";

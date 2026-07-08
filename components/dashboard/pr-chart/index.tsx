@@ -7,13 +7,11 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import { useMetrics } from "@/hooks/useMetrics";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { PRChartDataPoint } from "@/types/dashboard";
 
 // ============================================
 // CustomTooltip

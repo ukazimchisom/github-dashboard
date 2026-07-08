@@ -1,24 +1,19 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils/cn";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
-  // next-themes causes a hydration mismatch if i render
-  // theme-dependent content on the server.
-  // This pattern waits until after hydration to render the toggle.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
-    // Render a placeholder with the same dimensions to avoid layout shift
+  // resolvedTheme is undefined on the server and during hydration
+  // Rendering null avoids the hydration mismatch without needing
+  // useState + useEffect at all
+  if (!resolvedTheme) {
     return <div className="w-8 h-8 rounded-lg" />;
   }
 
-  const isDark = theme === "dark";
+  const isDark = resolvedTheme === "dark";
 
   return (
     <button
@@ -32,7 +27,6 @@ export function ThemeToggle() {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? (
-        // Sun icon — shown in dark mode to switch to light
         <svg
           className="w-4 h-4"
           fill="none"
@@ -47,7 +41,6 @@ export function ThemeToggle() {
           />
         </svg>
       ) : (
-        // Moon icon — shown in light mode to switch to dark
         <svg
           className="w-4 h-4"
           fill="none"
