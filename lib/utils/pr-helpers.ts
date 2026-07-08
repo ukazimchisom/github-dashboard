@@ -22,9 +22,9 @@ export function getPRStatusColor(status: PR_STATUS_TYPE): {
     { bg: string; text: string; dot: string }
   > = {
     [PR_STATUS.OPEN]: {
-      bg: "bg-blue-50",
-      text: "text-blue-700",
-      dot: "bg-blue-500",
+      bg: "bg-orange-50",
+      text: "text-orange-700",
+      dot: "bg-orange-500",
     },
     [PR_STATUS.IN_REVIEW]: {
       bg: "bg-yellow-50",
@@ -37,9 +37,9 @@ export function getPRStatusColor(status: PR_STATUS_TYPE): {
       dot: "bg-green-500",
     },
     [PR_STATUS.MERGED]: {
-      bg: "bg-purple-50",
-      text: "text-purple-700",
-      dot: "bg-purple-500",
+      bg: "bg-green-50",
+      text: "text-green-700",
+      dot: "bg-green-500",
     },
     [PR_STATUS.CLOSED]: {
       bg: "bg-gray-50",
