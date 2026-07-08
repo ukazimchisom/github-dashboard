@@ -22,12 +22,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           className={cn(
             "w-full px-3 py-2 text-sm rounded-lg border transition-colors duration-150",
-            "placeholder:text-gray-400 text-gray-900",
-            "focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent",
+            "placeholder:text-gray-400 dark:placeholder:text-gray-600",
+            "text-gray-900 dark:text-gray-100",
+            "focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 focus:border-transparent",
             error
-              ? "border-red-300 bg-red-50 focus:ring-red-500"
-              : "border-gray-200 bg-white hover:border-gray-300",
-            props.disabled && "opacity-50 cursor-not-allowed bg-gray-50",
+              ? "border-red-300 bg-red-50 dark:bg-red-950 focus:ring-red-500"
+              : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600",
+            props.disabled &&
+              "opacity-50 cursor-not-allowed bg-gray-50 dark:bg-gray-900",
             className,
           )}
           {...props}

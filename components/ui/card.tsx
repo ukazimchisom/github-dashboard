@@ -16,12 +16,14 @@ type CardProps = React.HTMLAttributes<HTMLDivElement>;
 export function Card({ className, ...props }: CardProps) {
   return (
     <div
-      className={cn("rounded-xl border border-gray-200 bg-white", className)}
+      className={cn(
+        "rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm",
+        className,
+      )}
       {...props}
     />
   );
 }
-
 export function CardHeader({ className, ...props }: CardProps) {
   return (
     <div
@@ -35,14 +37,13 @@ export function CardTitle({ className, ...props }: CardProps) {
   return (
     <h3
       className={cn(
-        "text-sm font-medium text-gray-500 leading-none tracking-tight",
+        "text-sm font-medium text-gray-500 dark:text-gray-400 leading-none tracking-tight",
         className,
       )}
       {...props}
     />
   );
 }
-
 export function CardDescription({ className, ...props }: CardProps) {
   return <p className={cn("text-xs text-gray-400", className)} {...props} />;
 }

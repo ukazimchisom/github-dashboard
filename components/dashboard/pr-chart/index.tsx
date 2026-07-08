@@ -197,7 +197,7 @@ export default function PRChart() {
             <CartesianGrid
               strokeDasharray="3 3"
               vertical={false}
-              stroke="#f0f0f0"
+              stroke="var(--chart-grid)"
             />
 
             {/*
@@ -206,7 +206,7 @@ export default function PRChart() {
             */}
             <XAxis
               dataKey="week"
-              tick={{ fontSize: 11, fill: "#9ca3af" }}
+              tick={{ fontSize: 11, fill: "var(--chart-axis)" }}
               axisLine={false}
               tickLine={false}
             />
@@ -216,7 +216,7 @@ export default function PRChart() {
               allowDecimals={false} prevents "1.5 PRs"
             */}
             <YAxis
-              tick={{ fontSize: 11, fill: "#9ca3af" }}
+              tick={{ fontSize: 11, fill: "var(--chart-axis)" }}
               axisLine={false}
               tickLine={false}
               allowDecimals={false}

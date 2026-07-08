@@ -18,8 +18,8 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 p-8 w-full max-w-md">
         {/* Logo / Brand */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-900 rounded-xl mb-4">
@@ -37,8 +37,12 @@ export default async function LoginPage() {
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">GitHub Dashboard</h1>
-          <p className="text-gray-500 mt-2 text-sm">For Engineering Managers</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            GitHub Dashboard
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
+            For Engineering Managers
+          </p>
         </div>
 
         {/* Value proposition */}
@@ -64,7 +68,9 @@ export default async function LoginPage() {
                   />
                 </svg>
               </div>
-              <span className="text-sm text-gray-600">{feature}</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {feature}
+              </span>
             </div>
           ))}
         </div>
@@ -72,7 +78,7 @@ export default async function LoginPage() {
         {/* Login button — client component handles the click */}
         <LoginButton />
 
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-6">
           By signing in, you agree to our Terms of Service.
           <br />
           We only request read access to your repositories.

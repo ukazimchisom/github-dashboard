@@ -13,7 +13,9 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Overview</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-500">
+          Overview
+        </h2>
         <p className="text-gray-500 mt-1 text-sm">
           Your team&apos;s pull request activity at a glance
         </p>

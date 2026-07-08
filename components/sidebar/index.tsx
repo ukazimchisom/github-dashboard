@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils/cn";
 import { LayoutGrid, LogIn, Users } from "lucide-react";
 import Image from "next/image";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 // Navigation items — easy to extend later
 const navItems = [
@@ -37,11 +38,11 @@ export default function Sidebar() {
   const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0">
+    <aside className="w-64 flex-shrink-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen sticky top-0">
       {/* Logo / Brand */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-200">
+      <div className="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gray-900 dark:bg-gray-700 rounded-lg flex items-center justify-center">
             <svg
               className="w-5 h-5 text-white"
               fill="currentColor"
@@ -54,7 +55,7 @@ export default function Sidebar() {
               />
             </svg>
           </div>
-          <span className="font-semibold text-gray-900 text-sm">
+          <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
             GH Dashboard
           </span>
         </div>
@@ -64,7 +65,6 @@ export default function Sidebar() {
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-
           return (
             <Link
               key={item.href}
@@ -72,12 +72,16 @@ export default function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150",
                 isActive
-                  ? "bg-gray-100 text-gray-900"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900",
+                  ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100",
               )}
             >
               <span
-                className={cn(isActive ? "text-gray-900" : "text-gray-400")}
+                className={cn(
+                  isActive
+                    ? "text-gray-900 dark:text-gray-100"
+                    : "text-gray-400 dark:text-gray-500",
+                )}
               >
                 {item.icon}
               </span>
@@ -88,7 +92,7 @@ export default function Sidebar() {
       </nav>
 
       {/* User section at bottom */}
-      <div className="border-t border-gray-200 p-4">
+      <div className="border-t border-gray-200 dark:border-gray-800 p-4">
         <div className="flex items-center gap-3 mb-3">
           {/* Avatar */}
           {avatarUrl ? (
@@ -100,8 +104,8 @@ export default function Sidebar() {
               className="w-8 h-8 rounded-full"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-              <span className="text-xs font-medium text-gray-600">
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-300">
                 {username[0]?.toUpperCase()}
               </span>
             </div>
@@ -109,13 +113,15 @@ export default function Sidebar() {
 
           {/* Name and email */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
               {username}
             </p>
-            <p className="text-xs text-gray-400 truncate">
+            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">
               {user?.email ?? ""}
             </p>
           </div>
+          {/* Theme toggle */}
+          <ThemeToggle />
         </div>
 
         {/* Sign out button */}

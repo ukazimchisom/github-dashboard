@@ -69,8 +69,11 @@ export default function TeamSelector() {
         onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
           "flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors duration-150",
-          "bg-white hover:bg-gray-50 text-gray-700",
-          isOpen ? "border-gray-400 ring-2 ring-gray-200" : "border-gray-200",
+          "bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700",
+          "text-gray-700 dark:text-gray-300",
+          isOpen
+            ? "border-gray-400 dark:border-gray-500 ring-2 ring-gray-200 dark:ring-gray-700"
+            : "border-gray-200 dark:border-gray-700",
         )}
       >
         {/* Team icon */}
@@ -105,7 +108,7 @@ export default function TeamSelector() {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl border border-gray-200 shadow-lg z-30 overflow-hidden">
+        <div className="absolute top-full left-0 mt-1 w-56 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg z-30 overflow-hidden">
           <div className="p-1">
             {teams.map((team) => {
               const isSelected = team.id === selectedTeamId;
@@ -119,8 +122,8 @@ export default function TeamSelector() {
                   className={cn(
                     "w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-lg transition-colors duration-100",
                     isSelected
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-700 hover:bg-gray-50",
+                      ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700",
                   )}
                 >
                   <span className="truncate">{team.name}</span>
@@ -145,11 +148,11 @@ export default function TeamSelector() {
           </div>
 
           {/* Link to manage teams */}
-          <div className="border-t border-gray-100 p-1">
+          <div className="border-t border-gray-100 dark:border-gray-700 p-1">
             <a
               href="/teams"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 px-3 py-2 text-xs text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <svg
                 className="w-3.5 h-3.5"

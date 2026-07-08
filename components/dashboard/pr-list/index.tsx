@@ -74,7 +74,7 @@ function PRRow({ pr }: { pr: PRWithRepo }) {
   const repoName = pr.repositories?.full_name ?? "Unknown repo";
 
   return (
-    <div className="flex items-center gap-4 py-3 border-b border-gray-100 last:border-0 hover:bg-gray-50 px-2 rounded-lg transition-colors duration-100">
+    <div className="flex items-center gap-4 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/50 px-2 rounded-lg transition-colors duration-100">
       {/* Author avatar */}
       <div className="flex-shrink-0">
         {pr.author_avatar_url ? (
@@ -96,13 +96,21 @@ function PRRow({ pr }: { pr: PRWithRepo }) {
 
       {/* PR title and metadata */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 truncate">{pr.title}</p>
+        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+          {pr.title}
+        </p>
         <div className="flex items-center gap-2 mt-0.5">
-          <span className="text-xs text-gray-400">#{pr.number}</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            #{pr.number}
+          </span>
           <span className="text-gray-300">·</span>
-          <span className="text-xs text-gray-400 truncate">{repoName}</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500 truncate">
+            {repoName}
+          </span>
           <span className="text-gray-300">·</span>
-          <span className="text-xs text-gray-400">{pr.author_username}</span>
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            {pr.author_username}
+          </span>
         </div>
       </div>
 
@@ -216,8 +224,8 @@ export default function PRList() {
               className={cn(
                 "px-3 py-1.5 text-xs font-medium rounded-lg transition-colors duration-150",
                 statusFilter === filter.value
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-500 hover:bg-gray-100 hover:text-gray-900",
+                  ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100",
               )}
             >
               {filter.label}
