@@ -38,3 +38,43 @@ export type GitHubPullRequest = {
     avatar_url: string;
   }>;
 };
+
+// ============================================
+// Webhook Event Types
+// ============================================
+
+export type WebhookPRAction =
+  | "opened"
+  | "closed"
+  | "reopened"
+  | "edited"
+  | "review_requested"
+  | "review_request_removed"
+  | "synchronize"
+  | "assigned"
+  | "unassigned"
+  | "labeled"
+  | "unlabeled"
+  | "ready_for_review"
+  | "converted_to_draft";
+
+export type GitHubWebhookPayload = {
+  action: WebhookPRAction;
+  pull_request: GitHubPullRequest & {
+    merged: boolean;
+  };
+  repository: {
+    id: number;
+    name: string;
+    full_name: string;
+    owner: {
+      login: string;
+      avatar_url: string;
+    };
+    private: boolean;
+  };
+  sender: {
+    login: string;
+    avatar_url: string;
+  };
+};

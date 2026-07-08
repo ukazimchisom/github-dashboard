@@ -43,7 +43,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const toastStyles: Record<ToastType, string> = {
     success: "bg-green-600 text-white",
     error: "bg-red-600 text-white",
-    info: "bg-gray-900 text-white",
+    info: "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900",
   };
 
   return (

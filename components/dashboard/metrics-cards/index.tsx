@@ -41,7 +41,7 @@ function MetricCard({
   value,
   description,
   icon,
-  valueColor = "text-gray-900",
+  valueColor = "text-gray-900 dark:text-gray-100",
 }: MetricCardProps) {
   return (
     <Card className="hover:shadow-md transition-shadow duration-200">
@@ -88,8 +88,8 @@ export default function MetricsCards() {
   if (error) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="col-span-4 bg-red-50 border border-red-200 rounded-xl p-4">
-          <p className="text-sm text-red-600">
+        <div className="col-span-4 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-900 rounded-xl p-4">
+          <p className="text-sm text-red-600 dark:text-red-400">
             Failed to load metrics: {error.message}
           </p>
         </div>
@@ -106,8 +106,10 @@ export default function MetricsCards() {
             <Card key={label}>
               <CardContent className="pt-6">
                 <CardTitle className="mb-3">{label}</CardTitle>
-                <p className="text-2xl font-bold text-gray-300">—</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-2xl font-bold text-gray-300 dark:text-gray-600">
+                  —
+                </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                   Sync GitHub data to see metrics
                 </p>
               </CardContent>
@@ -145,7 +147,10 @@ export default function MetricsCards() {
       title: "Open PRs",
       value: metrics.openPRs.toLocaleString(),
       description: "Currently awaiting review",
-      valueColor: metrics.openPRs > 10 ? "text-yellow-600" : "text-gray-900",
+      valueColor:
+        metrics.openPRs > 10
+          ? "text-yellow-600 dark:text-yellow-400"
+          : "text-gray-900 dark:text-gray-100",
       icon: (
         <svg
           className="w-4 h-4"
@@ -168,10 +173,10 @@ export default function MetricsCards() {
       description: "Average time to merge",
       valueColor:
         metrics.avgReviewTimeHours > 48
-          ? "text-red-600"
+          ? "text-red-600 dark:text-red-400"
           : metrics.avgReviewTimeHours > 24
-            ? "text-yellow-600"
-            : "text-green-600",
+            ? "text-yellow-600 dark:text-yellow-400"
+            : "text-green-600 dark:text-green-400",
       icon: (
         <svg
           className="w-4 h-4"

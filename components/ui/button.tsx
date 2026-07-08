@@ -18,10 +18,12 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 // Variant styles — defined outside component so they don't recreate on render
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: "bg-gray-900 text-white hover:bg-gray-700 disabled:bg-gray-300",
+  primary:
+    "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-300 disabled:bg-gray-300 dark:disabled:bg-gray-700",
   secondary:
-    "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 disabled:opacity-50",
-  ghost: "bg-transparent text-gray-600 hover:bg-gray-100 disabled:opacity-50",
+    "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50",
+  ghost:
+    "bg-transparent text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50",
   destructive: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300",
 };
 

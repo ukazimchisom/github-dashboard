@@ -7,14 +7,13 @@ import {
   calculateDashboardMetrics,
   buildChartData,
 } from "@/lib/utils/pr-helpers";
+import { useTeamStore } from "@/store/teamStore";
 import type { PullRequest } from "@/types/database";
 import type { DashboardMetrics, PRChartDataPoint } from "@/types/dashboard";
 
 // ============================================
 // fetchPullRequests
 // ============================================
-// Fetches all pull requests for a given team from Supabase.
-// This is the raw data fetch — calculation happens separately.
 
 async function fetchPullRequests(teamId: string): Promise<PullRequest[]> {
   const supabase = createClient();
@@ -33,65 +32,40 @@ async function fetchPullRequests(teamId: string): Promise<PullRequest[]> {
 }
 
 // ============================================
-// fetchUserTeam
-// ============================================
-// Gets the current user's team ID.
-// Every data query depends on this.
-
-async function fetchUserTeam(): Promise<string | null> {
-  const supabase = createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: team } = await supabase
-    .from(TABLES.TEAMS)
-    .select("id")
-    .eq("manager_id", user.id)
-    .single();
-
-  return team?.id ?? null;
-}
-
-// ============================================
 // useTeamId
 // ============================================
-// Hook that returns the current user's team ID.
-// Used as a dependency for other queries.
+// Now reads from Zustand store instead of the database.
+// The store is populated by the TeamSelector component.
 
 export function useTeamId() {
-  return useQuery({
-    queryKey: ["team-id"],
-    queryFn: fetchUserTeam,
-    staleTime: QUERY_STALE_TIME,
-  });
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+  return { data: selectedTeamId };
 }
 
 // ============================================
 // usePullRequests
 // ============================================
-// Hook that returns all pull requests for the user's team.
-// Other hooks derive their data from this one.
 
 export function usePullRequests() {
-  const { data: teamId } = useTeamId();
+  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
 
   return useQuery({
-    queryKey: ["pull-requests", teamId],
-    queryFn: () => fetchPullRequests(teamId!),
-    // Only run this query when we have a teamId
-    enabled: !!teamId,
+    queryKey: ["pull-requests", selectedTeamId],
+    queryFn: () => fetchPullRequests(selectedTeamId!),
+    enabled: !!selectedTeamId,
     staleTime: QUERY_STALE_TIME,
+
+    // Poll every 30 seconds to pick up webhook-triggered updates
+    // This is lightweight — TanStack Query only refetches if the
+    // window is focused and the data is stale
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
   });
 }
 
 // ============================================
 // useMetrics
 // ============================================
-// Derives the four dashboard metric values from pull request data.
-// Returns metrics, chart data, loading state, and error state.
 
 export function useMetrics(): {
   metrics: DashboardMetrics | null;

@@ -8,27 +8,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils/cn";
+import { LayoutGrid, LogIn, Users } from "lucide-react";
+import Image from "next/image";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 // Navigation items — easy to extend later
 const navItems = [
   {
     label: "Dashboard",
     href: "/",
-    icon: (
-      <svg
-        className="w-5 h-5"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
-        />
-      </svg>
-    ),
+    icon: <LayoutGrid className="w-5 h-5" strokeWidth={1.5} />,
+  },
+  {
+    label: "Teams",
+    href: "/teams",
+    icon: <Users className="w-5 h-5" strokeWidth={1.5} />,
   },
 ];
 
@@ -44,11 +38,11 @@ export default function Sidebar() {
   const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0">
+    <aside className="w-64 flex-shrink-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col h-screen sticky top-0">
       {/* Logo / Brand */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-200">
+      <div className="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gray-900 dark:bg-gray-700 rounded-lg flex items-center justify-center">
             <svg
               className="w-5 h-5 text-white"
               fill="currentColor"
@@ -61,7 +55,7 @@ export default function Sidebar() {
               />
             </svg>
           </div>
-          <span className="font-semibold text-gray-900 text-sm">
+          <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
             GH Dashboard
           </span>
         </div>
@@ -71,7 +65,6 @@ export default function Sidebar() {
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-
           return (
             <Link
               key={item.href}
@@ -79,12 +72,16 @@ export default function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150",
                 isActive
-                  ? "bg-gray-100 text-gray-900"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900",
+                  ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100",
               )}
             >
               <span
-                className={cn(isActive ? "text-gray-900" : "text-gray-400")}
+                className={cn(
+                  isActive
+                    ? "text-gray-900 dark:text-gray-100"
+                    : "text-gray-400 dark:text-gray-500",
+                )}
               >
                 {item.icon}
               </span>
@@ -95,18 +92,20 @@ export default function Sidebar() {
       </nav>
 
       {/* User section at bottom */}
-      <div className="border-t border-gray-200 p-4">
+      <div className="border-t border-gray-200 dark:border-gray-800 p-4">
         <div className="flex items-center gap-3 mb-3">
           {/* Avatar */}
           {avatarUrl ? (
-            <img
+            <Image
               src={avatarUrl}
               alt={username}
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-full"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-              <span className="text-xs font-medium text-gray-600">
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-300">
                 {username[0]?.toUpperCase()}
               </span>
             </div>
@@ -114,13 +113,15 @@ export default function Sidebar() {
 
           {/* Name and email */}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
               {username}
             </p>
-            <p className="text-xs text-gray-400 truncate">
+            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">
               {user?.email ?? ""}
             </p>
           </div>
+          {/* Theme toggle */}
+          <ThemeToggle />
         </div>
 
         {/* Sign out button */}
@@ -128,19 +129,7 @@ export default function Sidebar() {
           onClick={signOut}
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-150"
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1.5}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-            />
-          </svg>
+          <LogIn className="w-4 h-4" strokeWidth={1.5} />
           Sign out
         </button>
       </div>
