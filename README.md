@@ -107,7 +107,8 @@ The project was built as an MVP in 14 incremental steps, prioritising a working 
 
 ## 📸 Screenshots
 
-![]()
+![](public/screenshot-white.png)
+![](public/screenshot-black.png)
 
 ## 🏗 Architecture Overview
 
